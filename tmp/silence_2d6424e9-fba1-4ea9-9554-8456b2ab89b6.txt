@@ -1,0 +1,56 @@
+ffmpeg version 2025-05-19-git-c55d65ac0a-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-liboapv --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-openal --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      60.  2.100 / 60.  2.100
+  libavcodec     62.  3.101 / 62.  3.101
+  libavformat    62.  0.102 / 62.  0.102
+  libavdevice    62.  0.100 / 62.  0.100
+  libavfilter    11.  0.100 / 11.  0.100
+  libswscale      9.  0.100 /  9.  0.100
+  libswresample   6.  0.100 /  6.  0.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'tmp/input_2d6424e9-fba1-4ea9-9554-8456b2ab89b6.mp4':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: mp41isom
+    creation_time   : 2025-05-18T02:53:22.000000Z
+  Duration: 00:00:54.47, start: 0.000000, bitrate: 8896 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1080x1920 [SAR 1:1 DAR 9:16], 8710 kb/s, 60 fps, 60 tbr, 60k tbn, Start 0.016667 (default)
+    Metadata:
+      creation_time   : 2025-05-18T02:53:22.000000Z
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : AVC Coding
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 181 kb/s (default)
+    Metadata:
+      creation_time   : 2025-05-18T02:53:22.000000Z
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> wrapped_avframe (native))
+  Stream #0:1 -> #0:1 (aac (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: mp41isom
+    encoder         : Lavf62.0.102
+  Stream #0:0(und): Video: wrapped_avframe, yuv420p(progressive), 1080x1920 [SAR 1:1 DAR 9:16], q=2-31, 200 kb/s, 60 fps, 60 tbn (default)
+    Metadata:
+      encoder         : Lavc62.3.101 wrapped_avframe
+      creation_time   : 2025-05-18T02:53:22.000000Z
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+  Stream #0:1(und): Audio: pcm_s16le, 48000 Hz, stereo, s16, 1536 kb/s (default)
+    Metadata:
+      encoder         : Lavc62.3.101 pcm_s16le
+      creation_time   : 2025-05-18T02:53:22.000000Z
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+frame=  430 fps=0.0 q=-0.0 size=N/A time=00:00:07.00 bitrate=N/A speed=13.4x elapsed=0:00:00.52    frame=  879 fps=833 q=-0.0 size=N/A time=00:00:14.66 bitrate=N/A speed=13.9x elapsed=0:00:01.05    frame= 1358 fps=863 q=-0.0 size=N/A time=00:00:22.60 bitrate=N/A speed=14.4x elapsed=0:00:01.57    frame= 1859 fps=890 q=-0.0 size=N/A time=00:00:31.00 bitrate=N/A speed=14.8x elapsed=0:00:02.08    [silencedetect @ 0000011d2f11b980] silence_start: 33.396104
+[silencedetect @ 0000011d2f11b980] silence_end: 34.489833 | silence_duration: 1.093729
+[silencedetect @ 0000011d2f11b980] silence_start: 35.953646
+[silencedetect @ 0000011d2f11b980] silence_end: 36.874354 | silence_duration: 0.920708
+frame= 2595 fps=996 q=-0.0 size=N/A time=00:00:43.26 bitrate=N/A speed=16.6x elapsed=0:00:02.60    [out#0/null @ 0000011d2ef26880] video:1327KiB audio:10212KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame= 3267 fps=1058 q=-0.0 Lsize=N/A time=00:00:54.46 bitrate=N/A speed=17.6x elapsed=0:00:03.08    

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>切り抜き完了！ - QuickTrim</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .done-container {
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 2rem;
+      text-align: center;
+    }
+    .done-container video {
+      width: 100%;
+      max-height: 300px;
+      margin-bottom: 1rem;
+    }
+    .donate-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .donate-buttons button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      transition: background-color 0.3s;
+    }
+    .donate-buttons button:hover {
+      background-color: #0056b3;
+    }
+    #thank-you-message {
+      margin-top: 1.5rem;
+      font-weight: bold;
+      color: #e91e63;
+      transition: all 0.3s ease;
+      min-height: 2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="done-container">
+    <h1>切り抜き完了 🎉</h1>
+    <video src="/tmp/<%= @uuid %>.mp4" controls></video>
+    <div>
+      <a href="/tmp/<%= @uuid %>.mp4" download class="btn">🎬 動画をダウンロード</a>
+    </div>
+
+    <h2 style="margin-top: 2rem;">応援してくれる？☕</h2>
+    <p>以下の中から好きな金額で、開発を応援してくれると嬉しいです！</p>
+
+    <div class="donate-buttons">
+      <button onclick="showMessage('明日のブレイクタイムにコーヒー飲むね！ありがとう！')">¥100</button>
+      <button onclick="showMessage('作業用のドリンク代にするね！ありがとう！')">¥300</button>
+      <button onclick="showMessage('明日のランチ代にするね！ありがとう！')">¥500</button>
+      <button onclick="showMessage('ちょっと豪華な夜ご飯食べに行くね夜ご飯食べに行くね！ありがとう！')">¥1000</button>
+      <button onclick="showMessage('焼肉でも食べに行こうかな！ありがとう！')">¥5000</button>
+      <button onclick="showMessage('えっ、僕に旅行プレゼントしようとしてる！？ありがとう！！')">¥10000</button>
+    </div>
+
+    <p id="thank-you-message"></p>
+  </div>
+
+  <script>
+    function showMessage(message) {
+      const msg = document.getElementById('thank-you-message');
+      msg.textContent = message;
+      msg.style.opacity = '0';
+      setTimeout(() => {
+        msg.style.opacity = '1';
+      }, 100);
+    }
+  </script>
+</body>
+</html>

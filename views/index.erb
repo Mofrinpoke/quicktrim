@@ -1,0 +1,145 @@
+<!-- ファイル: views/index.erb -->
+<div class="container" style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+  <h1 class="title" style="text-align: center; font-size: 2.5rem;">QuickTrim</h1>
+
+  <form action="/cut" method="post" enctype="multipart/form-data">
+    <div class="upload-box" style="text-align: center; margin-bottom: 2rem;">
+      <label for="video" class="upload-label blue-button">
+        <i class="icon">🎞️</i>
+        <span>Choose a video file to upload</span>
+        <input type="file" id="video" name="video" accept="video/mp4" required hidden>
+      </label>
+    </div>
+
+    <div class="video-preview" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+      <video id="preview" width="320" height="180" controls style="display: none;"></video>
+    </div>
+
+    <div class="cut-mode-toggle" style="text-align: center; margin-bottom: 1rem;">
+      <label style="margin-right: 2rem;"><input type="radio" name="cut_mode" value="time" checked> 時間指定で切り抜き</label>
+      <label><input type="radio" name="cut_mode" value="slider"> スライダーで切り抜き</label>
+    </div>
+
+    <div class="time-inputs" style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem;">
+      <div style="text-align: center;">
+        <label for="start_time">Start time</label>
+        <input type="text" id="start_time" name="start_time" value="00:00:00" required>
+      </div>
+      <div style="text-align: center;">
+        <label for="end_time">End time</label>
+        <input type="text" id="end_time" name="end_time" value="00:00:00" required>
+      </div>
+    </div>
+
+    <div class="slider-range-wrapper" style="display: none; margin: 2rem auto; width: 90%;">
+      <div id="range_slider"></div>
+      <div id="silence-bar" style="position: relative; height: 10px; background: #eee; margin: 1rem 0; border-radius: 4px;"></div>
+      <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+        <span id="slider_start_label">00:00:00</span>
+        <span id="slider_end_label">00:00:00</span>
+      </div>
+    </div>
+
+    <div class="options" style="text-align: center; margin: 1rem 0;">
+      <label style="margin-right: 2rem;"><input type="checkbox" name="remove_silence"> Detect and remove silent regions</label>
+      <label><input type="checkbox" name="reverse"> Reverse video</label>
+    </div>
+
+    <div style="text-align: center;">
+      <button type="submit" class="btn">Trim Video</button>
+    </div>
+
+    <% if @error %>
+      <div class="error" style="text-align: center; color: red; margin-top: 1rem;">
+        <i class="warning">⚠️</i>
+        <%= @error %>
+      </div>
+    <% end %>
+  </form>
+</div>
+
+<!-- noUiSlider CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
+<script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
+
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/validate.js"></script>
+<script>
+let slider;
+
+function formatTime(sec) {
+  sec = parseFloat(sec);
+  if (isNaN(sec)) return "00:00:00";
+  const s = Math.floor(sec % 60).toString().padStart(2, '0');
+  const m = Math.floor(sec / 60 % 60).toString().padStart(2, '0');
+  const h = Math.floor(sec / 3600).toString().padStart(2, '0');
+  return `${h}:${m}:${s}`;
+}
+
+function parseTime(str) {
+  const parts = str.split(':').map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) return 0;
+  return (parts[0] * 3600) + (parts[1] * 60) + parts[2];
+}
+
+function initializeSlider(duration) {
+  const sliderEl = document.getElementById("range_slider");
+  if (slider) slider.destroy();
+
+  slider = noUiSlider.create(sliderEl, {
+    start: [0, duration],
+    connect: true,
+    range: {
+      min: 0,
+      max: duration
+    },
+    step: 0.1,
+    tooltips: [true, true],
+    format: {
+      to: formatTime,
+      from: parseTime
+    }
+  });
+
+  slider.on('update', function (values, handle) {
+    const start = parseTime(values[0]);
+    const end = parseTime(values[1]);
+
+    document.getElementById("preview").currentTime = handle === 0 ? start : end;
+    document.getElementById("start_time").value = formatTime(start);
+    document.getElementById("end_time").value = formatTime(end);
+    document.getElementById("slider_start_label").innerText = formatTime(start);
+    document.getElementById("slider_end_label").innerText = formatTime(end);
+  });
+}
+
+const videoInput = document.getElementById("video");
+videoInput.addEventListener("change", function(event) {
+  const file = event.target.files[0];
+  const preview = document.getElementById("preview");
+  if (file) {
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = "block";
+    preview.addEventListener("loadedmetadata", () => {
+      initializeSlider(preview.duration);
+    }, { once: true });
+  }
+});
+
+document.querySelectorAll('input[name="cut_mode"]').forEach(el => {
+  el.addEventListener('change', function(e) {
+    const isSlider = e.target.value === 'slider';
+    document.querySelector('.slider-range-wrapper').style.display = isSlider ? 'block' : 'none';
+    document.querySelector('.time-inputs').style.display = isSlider ? 'none' : 'flex';
+  });
+});
+</script>
+
+<script>
+  <% if @uuid && File.exist?(File.join(settings.public_folder, "json", "#{@uuid}.json")) %>
+    window.silenceDataUrl = "/json/<%= @uuid %>.json";
+  <% end %>
+</script>
+<script src="/js/silence_viewer.js"></script>
+
+<script src="/js/donation_popup.js"></script>
