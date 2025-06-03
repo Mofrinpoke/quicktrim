@@ -6,4 +6,5 @@ gem 'sinatra-contrib'
 gem 'dotenv'
 gem 'puma'
 gem 'rackup'
+gem 'rack'
 

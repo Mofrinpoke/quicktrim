@@ -43,6 +43,7 @@ PLATFORMS
 DEPENDENCIES
   dotenv
   puma
+  rack
   rackup
   sinatra
   sinatra-contrib
