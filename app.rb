@@ -5,6 +5,8 @@ require 'fileutils'
 require 'json'
 require 'dotenv/load'
 
+ALLOWED_EXTENSIONS = [".mp4", ".mp3"]
+
 set :public_folder, File.dirname(__FILE__) + '/public'
 set :upload_dir, 'public/tmp'
 set :work_dir, 'tmp'
@@ -31,6 +33,35 @@ get '/done/:uuid' do
 end
 
 post '/cut' do
+    filename = params[:video][:filename]
+  ext = File.extname(filename).downcase
+  unless ALLOWED_EXTENSIONS.include?(ext)
+    @error = "対応しているファイル形式は .mp4 と .mp3 のみです。"
+    return erb :index
+  end
+
+  uuid = SecureRandom.uuid
+  upload_path = File.join(settings.upload_dir, "#{uuid}#{ext}")
+
+  File.open(upload_path, 'wb') do |f|
+    f.write(params[:video][:tempfile].read)
+  end
+
+  start_time = params[:start_time]
+  end_time = params[:end_time]
+
+  # 出力ファイル名
+  output_ext = ext  # mp4ならmp4、mp3ならmp3で出力
+  output_filename = "#{uuid}#{output_ext}"
+  output_path = File.join(settings.public_folder, 'tmp', output_filename)
+
+  # ffmpegで切り抜き処理
+  command = "ffmpeg -i #{upload_path.shellescape} -ss #{start_time} -to #{end_time} -c copy #{output_path.shellescape}"
+  system(command)
+
+  redirect "/done/#{uuid}"
+end
+
   unless params[:video] && params[:start_time] && params[:end_time]
     @error = "動画と切り抜き時間を指定してください。"
     return erb :index
