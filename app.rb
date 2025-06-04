@@ -47,6 +47,7 @@ post '/cut' do
     f.write(params[:video][:tempfile].read)
   end
 
+
   start_time = params[:start_time]
   end_time = params[:end_time]
 
@@ -147,6 +148,3 @@ post '/cut' do
 end
 
 
- redirect "/done/#{uuid}"
- end
- 
