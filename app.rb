@@ -59,8 +59,7 @@ post '/cut' do
   command = "ffmpeg -i #{upload_path.shellescape} -ss #{start_time} -to #{end_time} -c copy #{output_path.shellescape}"
   system(command)
 
-  redirect "/done/#{uuid}"
-end
+  #ここにend ここにend 
 
   unless params[:video] && params[:start_time] && params[:end_time]
     @error = "動画と切り抜き時間を指定してください。"
@@ -146,3 +145,8 @@ end
   File.delete(input_path) if File.exist?(input_path)
   redirect "/done/#{uuid}"
 end
+
+
+ redirect "/done/#{uuid}"
+ end
+ 
